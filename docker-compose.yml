@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: judging_db
+    environment:
+      MYSQL_ROOT_PASSWORD: Cristiano7!
+      MYSQL_DATABASE: judging_system
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Cristiano7!
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - judging_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: judging_app
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root               # Changed to root to match DB user
+      DB_PASS: Cristiano7!        # Changed to match root password
+      DB_NAME: judging_system
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      - judging_network
+
+  adminer:
+    image: adminer
+    container_name: judging_adminer
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+    networks:
+      - judging_network
+
+volumes:
+  db_data:
+
+networks:
+  judging_network:
+    driver: bridge
