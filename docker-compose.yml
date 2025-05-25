@@ -32,6 +32,7 @@ services:
       - "8080:80"
     networks:
       - judging_network
+    # command: ["./wait-for-it.sh", "db:3306", "--timeout=30", "--strict", "--", "apache2-foreground"] ← Remove this
 
   adminer:
     image: adminer
