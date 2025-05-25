@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . '/../includes/init.php');
 
-// Verify judge access
+// Ensure only judges can access
 $auth = new Auth();
 $auth->requireJudge();
 
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['score'], $_POST['user
 
     try {
         if ($scoreValue < 0 || $scoreValue > 100) {
-            throw new Exception("Score must be between 1-100");
+            throw new Exception("Score must be between 1 and 100.");
         }
 
         if ($scoreValue === 0) {
@@ -61,7 +61,6 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
-        /* Root purple theme colors */
         :root {
             --purple-dark: #5a189a;
             --purple-medium: #7b2ff7;
@@ -115,14 +114,15 @@ try {
             margin-bottom: 15px;
             font-weight: 500;
             font-size: 1rem;
-            max-width: 100%;
             text-align: center;
         }
+
         .success {
             background-color: #d1e7dd;
             color: #0f5132;
             border: 1px solid #badbcc;
         }
+
         .error {
             background-color: #f8d7da;
             color: #842029;
@@ -155,7 +155,7 @@ try {
         tbody {
             display: block;
             overflow-y: auto;
-            height: 55vh; /* scroll height */
+            height: 55vh;
             background: white;
         }
 
@@ -164,7 +164,6 @@ try {
             width: 100%;
             table-layout: fixed;
             border-bottom: 1px solid #eee;
-            transition: background-color 0.3s ease;
         }
 
         tbody tr:hover {
@@ -183,7 +182,6 @@ try {
             font-size: 1rem;
             border: 1.5px solid var(--purple-medium);
             border-radius: 6px;
-            transition: border-color 0.3s ease;
         }
 
         input[type="number"]:focus {
@@ -200,7 +198,6 @@ try {
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
             font-family: 'Montserrat', sans-serif;
         }
 
@@ -219,7 +216,6 @@ try {
             font-weight: 600;
             color: var(--purple-medium);
             text-decoration: none;
-            font-size: 1rem;
         }
 
         a.logout-link:hover {
@@ -227,22 +223,25 @@ try {
             color: var(--purple-dark);
         }
 
-        /* Responsive tweaks */
         @media (max-width: 600px) {
             body {
                 padding: 15px 10px;
             }
+
             .container {
                 padding: 20px 15px;
                 height: 70vh;
             }
+
             input[type="number"] {
                 width: 60px;
             }
+
             th, td {
                 padding: 10px 8px;
                 font-size: 0.9rem;
             }
+
             button {
                 padding: 6px 12px;
                 font-size: 0.9rem;
@@ -255,11 +254,11 @@ try {
     <h1>Judge Scoring Panel</h1>
     <p class="welcome">Welcome, <?= htmlspecialchars($_SESSION['user']['display_name']) ?></p>
 
-    <?php if (isset($message)): ?>
+    <?php if (!empty($message)): ?>
         <div class="message success"><?= htmlspecialchars($message) ?></div>
     <?php endif; ?>
 
-    <?php if (isset($error)): ?>
+    <?php if (!empty($error)): ?>
         <div class="message error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
@@ -278,7 +277,7 @@ try {
                 <td><?= htmlspecialchars($participant['display_name']) ?></td>
                 <td><?= isset($participant['score']) ? htmlspecialchars($participant['score']) : 'Not scored' ?></td>
                 <td>
-                    <form method="POST" class="score-form">
+                    <form method="POST">
                         <input type="hidden" name="user_id" value="<?= $participant['id'] ?>">
                         <input type="number" name="score" min="1" max="100" required />
                         <button type="submit">Submit</button>
@@ -286,7 +285,7 @@ try {
                 </td>
                 <td>
                     <?php if (isset($participant['score'])): ?>
-                        <form method="POST" class="score-clear-form">
+                        <form method="POST">
                             <input type="hidden" name="user_id" value="<?= $participant['id'] ?>">
                             <input type="hidden" name="score" value="0" />
                             <button type="submit">Clear</button>

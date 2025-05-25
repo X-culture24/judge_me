@@ -7,8 +7,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Cristiano7!
       MYSQL_DATABASE: judging_system
-      MYSQL_USER: root
-      MYSQL_PASSWORD: Cristiano7!
     volumes:
       - db_data:/var/lib/mysql
     ports:
@@ -25,8 +23,8 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_USER: root               # Changed to root to match DB user
-      DB_PASS: Cristiano7!        # Changed to match root password
+      DB_USER: root
+      DB_PASS: Cristiano7!
       DB_NAME: judging_system
     volumes:
       - .:/var/www/html
