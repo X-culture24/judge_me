@@ -56,7 +56,7 @@ $judgeScores = $score->getScoresByJudge($judgeId);
             <tbody>
                 <?php foreach ($users as $participant): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($participant['name']); ?></td>
+                    <td><?php echo htmlspecialchars($participant['display_name']); ?></td>
                     <td><?php echo $participant['total_score']; ?></td>
                     <td>
                         <?php echo $judgeScores[$participant['id']] ?? 'Not scored yet'; ?>

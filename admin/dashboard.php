@@ -1,7 +1,10 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
 
-session_start();
+// Fix: only start session if not already active
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Check if user is logged in and is admin
 if (!isset($_SESSION['user']) || !$_SESSION['user']['is_admin']) {

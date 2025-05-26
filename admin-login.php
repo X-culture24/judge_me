@@ -1,8 +1,12 @@
 <?php
+ob_start(); // Start output buffering to allow header() after any output
+
 require_once('includes/init.php');
 
-// Start the session
-session_start();
+// Start the session only if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Hardcoded credentials (In production, use hashed passwords + database)
 $admin_username = "admin";
@@ -139,3 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </body>
 </html>
+
+<?php
+ob_end_flush(); // Flush the output buffer and send headers
+?>

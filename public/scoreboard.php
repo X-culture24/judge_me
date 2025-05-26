@@ -54,7 +54,7 @@ $users = $user->getAllUsers();
                 ?>
                 <tr class="<?php echo $highlight; ?>">
                     <td><?php echo $rank++; ?></td>
-                    <td><?php echo htmlspecialchars($participant['name']); ?></td>
+                    <td><?php echo htmlspecialchars($participant['display_name']); ?></td>
                     <td><?php echo $participant['total_score']; ?></td>
                 </tr>
                 <?php endforeach; ?>
